@@ -1,0 +1,14 @@
+<div class="wdghtml" taskKey="com.javarush.task.task21.task2112">
+<h3>AutoCloseable и try-with-resources</h3>
+<p>В классе <strong><span class="text-corporate">FakeConnection</span></strong> реализуй интерфейс <mark class="user">AutoCloseable</mark>, чтобы объекты этого типа можно было использовать в <strong>try-with-resources</strong>.<br />
+Метод <mark>close()</mark> должен выводить на экран фразу &#171;<em><strong>Closing database connection&#8230;</strong></em>&#187;<br />
+В блоке <strong>try</strong> последовательно вызови методы <mark>usefulOperation()</mark> и <mark>unsupportedOperation()</mark>.</p>
+<p><strong>Вывод на экран должен быть следующим:</strong><br />
+<code>Creating database connection...<br />
+Entering the body of try block.<br />
+Executing useful operation.<br />
+Operation is not supported yet!<br />
+Closing database connection...</code></p>
+<p>Обрати внимание на то, что ресурсы были освобождены автоматически несмотря на исключение брошенное методом <mark>unsupportedOperation</mark>.</p>
+
+</div>

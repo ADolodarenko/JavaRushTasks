@@ -1,0 +1,8 @@
+<div class="wdghtml" taskKey="com.javarush.task.task21.task2109">
+<h3>Запретить клонирование</h3>
+<p>Разреши клонировать класс <strong><span class="text-corporate">А</span></strong><br />
+Запрети клонировать класс <span class="text-corporate"><strong>B</strong></span><br />
+Разреши клонировать класс <span class="text-corporate"><strong>C</strong></span><br />
+Не забудь о методах <mark>equals</mark> и <mark>hashCode</mark>!</p>
+
+</div>

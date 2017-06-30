@@ -1,0 +1,8 @@
+<div class="wdghtml" taskKey="com.javarush.task.task22.task2205">
+<h3>МНЕ нравится курс JavaRush</h3>
+<p>Исправить метод <mark>getFormattedString</mark> так, чтобы он возвращал строку с параметрами для форматирования.<br />
+Параметры должны меняться местами.</p>
+<p><strong>Должен быть вывод:</strong><br />
+<code>МНЕ нравится курс JavaRush</code></p>
+
+</div>

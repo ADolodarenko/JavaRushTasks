@@ -1,0 +1,39 @@
+<div class="wdghtml" taskKey="com.javarush.task.task21.task2113.big05">
+<h3>Ипподром(5)</h3>
+<p>Закончим написание класса лошадь (<strong><span class="text-corporate">Horse</span></strong>).<br />
+Добавь конструктор с параметрами (<mark class="user">name</mark>, <mark class="user">speed</mark>, <mark class="user">distance</mark>).<br />
+Добавь <strong><span class="text-user">getter&#8217;ы</span></strong> и <strong><span class="text-user">setter&#8217;ы</span></strong> для всех полей класса <strong><span class="text-corporate">Horse</span></strong>.<br />
+Делай все методы <mark>public</mark>, если явно не указано обратное.</p>
+
+<hr>
+<h3>Ипподром(4)</h3>
+<p>Теперь вернемся к лошадям. У каждой лошади на скачках должны быть известны имя (<strong>name</strong>) и скорость (<strong>speed</strong>).<br />
+Наши лошади будут бежать просто определенное время (<span class="text-user"><strong>100</strong></span> <em><strong>секунд/&#187;шагов&#187;</strong></em>).<br />
+Будем определять победителя, как лошадь, пробежавшую наибольшую дистанцию.<br />
+Поэтому нам понадобится хранить еще и расстояние (<strong>distance</strong>), которое лошадь уже пробежала.<br />
+Добавь в класс <strong><span class="text-corporate">Horse</span></strong> переменные <mark class="user">name</mark> (<span class="text-corporate">String</span>), <mark class="user">speed</mark> (<span class="text-corporate">double</span>), <mark class="user">distance</mark> (<span class="text-corporate">double</span>).</p>
+
+<hr>
+<h3>Ипподром(3)</h3>
+<p>Несмотря на то что мы объявили переменную <mark class="user">horses</mark>, сам список еще не создан (если ты конечно не успел опередить нас).<br />
+Создай конструктор класса <strong><span class="text-corporate">Hippodrome</span></strong> с одним параметром типа <strong><span class="text-red">List</span></strong>.<br />
+Сохрани в поле <mark class="user">horses</mark> полученный в качестве параметра <strong>список</strong> (<em>инициализируй поле <strong>horses</strong></em>).</p>
+
+<hr>
+<h3>Ипподром(2)</h3>
+<p>Раз это ипподром, то на нем должны быть лошади.<br />
+Значит наш ипподром должен хранить список всех его лошадей.<br />
+Добавь поле horses типа <span class="text-red"><strong>List</strong>&lt;Horse&gt;</span> в класс <span class="text-corporate"><strong>Hippodrome</strong></span>.<br />
+А чтобы лошадей не украли &#8212; сделай это поле <strong>приватным</strong>.<br />
+Добавь <strong><span class="text-user">getter</span></strong> для этого поля.</p>
+
+<hr>
+<h3>Ипподром(1)</h3>
+<p>Сегодня мы напишем небольшую игру под названием &#171;<em><strong>Ипподром</strong></em>&#171;.<br />
+Когда я говорю мы &#8212; я имею ввиду тебя. Я же буду работать наставником.</p>
+<p>Для начала нам понадобятся классы &#171;<em><strong>ипподром</strong></em>&#187; и &#171;<em><strong>лошадь</strong></em>&#171;.<br />
+Создай классы <span class="text-corporate"><strong>Hippodrome</strong></span> (<em><strong>ипподром</strong></em>), <strong><span class="text-corporate">Horse</span></strong> (<strong>лошадь</strong>).</p>
+<p>Также не забудь, что любая программа начинается с метода main.<br />
+Добавь его в класс <span class="text-corporate"><strong>Hippodrome</strong></span>.</p>
+
+</div>

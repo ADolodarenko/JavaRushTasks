@@ -1,0 +1,8 @@
+taskKey="com.javarush.task.task23.task2308"
+
+Рефакторинг, вложенные классы
+
+Отрефакторите класс Solution: вынесите все константы в public вложенный(nested) класс Constants.
+Запретите наследоваться от Constants.
+
+

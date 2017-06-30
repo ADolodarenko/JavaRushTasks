@@ -1,0 +1,11 @@
+<div class="wdghtml" taskKey="com.javarush.task.task22.task2202">
+<h3>Найти подстроку</h3>
+<p>Метод <mark>getPartOfString</mark> должен возвращать подстроку начиная с символа после <span class="text-user"><strong>1</strong></span>-го пробела и до конца слова,<br />
+которое следует после <span class="text-user"><strong>4</strong></span>-го пробела.</p>
+<p><strong>Пример:<br />
+</strong>&#171;<em><strong>JavaRush &#8212; лучший сервис обучения Java</strong></em>.&#187;</p>
+<p>Результат:<br />
+&#171;<em><strong>&#8212; лучший сервис обучения</strong></em>&#187;</p>
+<p>На некорректные данные бросить исключение TooShortStringException (сделать исключением).</p>
+
+</div>

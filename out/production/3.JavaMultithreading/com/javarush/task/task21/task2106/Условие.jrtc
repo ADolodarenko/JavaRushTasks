@@ -1,0 +1,5 @@
+<div class="wdghtml" taskKey="com.javarush.task.task21.task2106">
+<h3>Ошибка в equals/hashCode</h3>
+<p>Исправьте ошибки реализаций методов <mark>equals</mark> и <mark>hashCode</mark> для класса <strong><span class="text-corporate">Solution</span></strong>.</p>
+
+</div>

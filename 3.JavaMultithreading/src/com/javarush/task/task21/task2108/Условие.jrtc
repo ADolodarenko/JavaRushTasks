@@ -1,0 +1,6 @@
+<div class="wdghtml" taskKey="com.javarush.task.task21.task2108">
+<h3>Клонирование растений</h3>
+<p>Класс <strong><span class="text-corporate">Plant</span></strong> не должен реализовывать интерфейс <mark class="user">Cloneable</mark><br />
+Реализуй механизм глубокого клонирования для <strong><span class="text-red">Tree</span></strong>.</p>
+
+</div>

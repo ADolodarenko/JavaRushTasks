@@ -1,0 +1,13 @@
+<div class="wdghtml" taskKey="com.javarush.task.task22.task2201">
+<h3>Строки нитей или строковые нити? Вот в чем вопрос</h3>
+<p>1. Метод <mark>getPartOfString</mark> должен возвращать подстроку между первой и последней табуляцией.<br />
+2. На некорректные данные <mark>getPartOfString</mark> должен бросить исключение:<br />
+а) <strong><span class="text-corporate">TooShortStringFirstThreadException</span></strong>, если имя трэда <span class="text-user"><strong>FIRST_THREAD_NAME</strong></span>.<br />
+б) <span class="text-corporate"><strong>TooShortStringSecondThreadException</strong></span>, если имя трэда <span class="text-user"><strong>SECOND_THREAD_NAME</strong></span>.<br />
+в) <strong><span class="text-corporate">RuntimeException</span></strong> в других случаях.<br />
+3. Реализуйте логику трех <mark>protected</mark> методов в <span class="text-corporate"><strong>ThisUncaughtExceptionHandler</strong></span> используя вызовы соответствующих методов согласно следующим шаблонам:<br />
+a) <span class="text-neon">1# : TooShortStringFirstThreadException : java.lang.StringIndexOutOfBoundsException: String index out of range: -1</span><br />
+б) <span class="text-neon">java.lang.StringIndexOutOfBoundsException: String index out of range: -1 : TooShortStringSecondThreadException : 2#</span><br />
+в) <span class="text-neon">RuntimeException : java.lang.StringIndexOutOfBoundsException: String index out of range: -1 : 3#</span></p>
+
+</div>

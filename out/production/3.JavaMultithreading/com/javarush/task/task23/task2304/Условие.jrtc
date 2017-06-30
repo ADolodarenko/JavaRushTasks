@@ -1,0 +1,9 @@
+taskKey="com.javarush.task.task23.task2304"
+
+Inner 3
+
+Внутри класса Solution:
+1) реализуйте private class TaskDataProvider используя Task и DbMock, цель которого - обновить поле tasks.
+2) реализуйте private class NameDataProvider используя String и DbMock, цель которого - обновить поле names.
+
+

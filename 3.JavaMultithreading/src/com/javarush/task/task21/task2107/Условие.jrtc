@@ -1,0 +1,7 @@
+<div class="wdghtml" taskKey="com.javarush.task.task21.task2107">
+<h3>Глубокое клонирование карты</h3>
+<p>Обеспечь возможность клонирования объекта класса <strong><span class="text-corporate">Solution</span></strong> используя глубокое клонирование.<br />
+Данные в карте users также должны быть клонированы.<br />
+Не забудь о методах <mark>equals</mark> и <mark>hashCode</mark> для корректного добавления элементов типа <span class="text-corporate">User</span> в <span class="text-corporate">HashMap</span>.</p>
+
+</div>

@@ -1,0 +1,47 @@
+List<String> words = new ArrayList<String>();
+        
+		BufferedReader console = new BufferedReader(new InputStreamReader(System.in));
+		BufferedReader file = new BufferedReader(new FileReader(console.readLine()));
+		console.close();
+		
+		String line;
+		while ((line = file.readLine()) != null)
+		{
+			String[] elements = line.split(" ");
+			words.addAll(Arrays.asList(elements));
+		}
+		
+		file.close();
+		
+		int i = 0;
+		while (i < words.size())
+		{
+			String firstWord = words.get(i);
+			String revWord = new StringBuilder(firstWord).reverse().toString();
+			boolean hasPair = false;
+			
+			for (int j = i + 1; j < words.size(); j++)
+			{
+				String secondWord = words.get(j);
+				
+				hasPair = (revWord.equals(secondWord));
+				
+				if (hasPair)
+				{
+					Pair pair = new Pair();
+					pair.first = firstWord;
+					pair.second = secondWord;
+					result.add(pair);
+					
+					words.remove(j);
+					words.remove(i);
+					break;
+				}
+			}
+			
+			if (!hasPair)
+				i++;
+		}
+	
+		for (Pair pair : result)
+			System.out.println(pair);

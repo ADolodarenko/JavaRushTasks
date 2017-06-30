@@ -1,0 +1,7 @@
+<div class="wdghtml" taskKey="com.javarush.task.task22.task2203">
+<h3>Между табуляциями</h3>
+<p>Метод <mark>getPartOfString</mark> должен возвращать подстроку между первой и второй табуляцией.<br />
+На некорректные данные бросить исключение <span class="text-corporate"><strong>TooShortStringException</strong></span>.<br />
+Класс <span class="text-corporate"><strong>TooShortStringException</strong></span> не менять.</p>
+
+</div>

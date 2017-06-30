@@ -1,0 +1,14 @@
+package com.javarush.task.task21.task2107;
+
+1. User должен реализовывать Cloneable;
+2. Реализовать User.clone(), сузив его тип до User;
+3. Вызвать super.clone() в User.clone();
+4. Реализовать User.hashCode();
+5. Реализовать User.equals();  (пп. 4 и 5 видимо для того, чтобы валидатор увидел, что склонированный юзер все-таки клон, хотя и не тот же объект)
+6. Solution должен реализовывать Cloneable;
+7. Реализовать Solution.clone(), сузив его тип до Solution;
+8. Вызвать super.clone() в Solution.clone(), после чего создать новую карту, залить в нее данные и присвоить ссылку на нее карте users клона Solution;
+
+package com.javarush.task.task21.task2108;
+
+Зачем классу Tree реализовывать Cloneable?

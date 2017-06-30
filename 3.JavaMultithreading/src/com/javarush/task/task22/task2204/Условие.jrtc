@@ -1,0 +1,9 @@
+<div class="wdghtml" taskKey="com.javarush.task.task22.task2204">
+<h3>Форматирование строки</h3>
+<p>Исправить метод <mark>getFormattedString</mark> так, чтобы он возвращал строку с параметрами для форматирования.<br />
+Для перевода каретки не используйте n.</p>
+<p><strong>Должен быть вывод:</strong><br />
+<code>20 / 7 = 2,86<br />
+Exp = 3,33e+00</code></p>
+
+</div>

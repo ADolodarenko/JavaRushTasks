@@ -1,0 +1,5 @@
+<div class="wdghtml" taskKey="com.javarush.task.task21.task2110">
+<h3>Рефакторинг методов</h3>
+<p>Отрефакторите метод <mark>writeZipEntriesToFile</mark> в соответствии с <strong>java7 try-with-resources</strong>.</p>
+
+</div>
