@@ -1,8 +1,11 @@
 package com.javarush.task.task36.task3606;
 
 import java.io.File;
+import java.io.IOException;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,11 +28,63 @@ public class Solution {
         System.out.println(solution.getHiddenClassObjectByKey("packa"));
     }
 
-    public void scanFileSystem() throws ClassNotFoundException {
+    public void scanFileSystem() throws ClassNotFoundException
+    {
+		File[] files = new File(packageName).listFiles();
+		ClassLoaderFromPath classLoader = new ClassLoaderFromPath();
+
+		for (File f : files) {
+			Class<?> clazz = classLoader.load(f.toPath());
+			if (clazz != null)
+				hiddenClasses.add(clazz);
+		}
     }
 
-    public HiddenClass getHiddenClassObjectByKey(String key) {
-        return null;
+    public HiddenClass getHiddenClassObjectByKey(String key)
+	{
+		for (Class<?> clazz : hiddenClasses)
+		{
+			if (clazz.getSimpleName().toLowerCase().startsWith(key.toLowerCase()))
+			{
+				try
+				{
+					Constructor[] constructors = clazz.getDeclaredConstructors();
+
+					for (Constructor constructor : constructors)
+					{
+						if (constructor.getParameterTypes().length == 0)
+						{
+							constructor.setAccessible(true);
+							return (HiddenClass) constructor.newInstance(null);
+						}
+					}
+				}
+				catch (Exception e)
+				{
+					return null;
+				}
+			}
+		}
+
+		return null;
     }
+
+	public static class ClassLoaderFromPath extends ClassLoader
+	{
+		public Class<?> load(Path path)
+		{
+			try
+			{
+				if (path.getFileName().toString().lastIndexOf(".class") == -1)
+					return null;
+
+				byte[] b = Files.readAllBytes(path);
+				return defineClass(null, b, 0, b.length); //here main magic
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			return null;
+		}
+	}
 }
 

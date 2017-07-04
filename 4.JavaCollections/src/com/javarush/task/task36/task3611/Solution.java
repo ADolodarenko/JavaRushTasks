@@ -20,8 +20,34 @@ public class Solution {
         System.out.println(potentialFriends);                                           //expected: [2, 5, 7]
     }
 
-    public Set<Integer> getAllFriendsAndPotentialFriends(int index, int deep) {
-        return null;
+    public Set<Integer> getAllFriendsAndPotentialFriends(int index, int deep)
+	{
+        Set<Integer> result = new HashSet<>();
+
+        if (deep == 0) return result;
+
+        for (int i = 0; i < humansRelationships.length; i++)
+        {
+            if (i < index)
+            {
+                if (humansRelationships[index][i])
+                {
+                    result.add(i);
+                    result.addAll(getAllFriendsAndPotentialFriends(i, deep - 1));
+                }
+            }
+            else
+			{
+                if (humansRelationships[i][index])
+                {
+                    result.add(i);
+                    result.addAll(getAllFriendsAndPotentialFriends(i, deep - 1));
+                }
+            }
+        }
+
+        result.remove(index);
+        return result;
     }
 
     //remove people from set, with which you have already had relationship
