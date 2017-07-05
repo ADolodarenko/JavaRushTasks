@@ -17,22 +17,22 @@ public class SnakeSection {
     public int getY() {
         return y;
     }
-    
+
     @Override
-    public boolean equals(Object o)
-    {
+    public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        
+
         SnakeSection that = (SnakeSection) o;
-        
+
         if (x != that.x) return false;
-        return y == that.y;
+        if (y != that.y) return false;
+
+        return true;
     }
-    
+
     @Override
-    public int hashCode()
-    {
+    public int hashCode() {
         int result = x;
         result = 31 * result + y;
         return result;

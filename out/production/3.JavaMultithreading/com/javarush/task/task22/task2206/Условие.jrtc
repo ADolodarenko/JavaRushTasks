@@ -1,0 +1,7 @@
+<div class="wdghtml" taskKey="com.javarush.task.task22.task2206">
+<h3>Форматирование даты</h3>
+<p>Исправить метод <mark>getFormattedString</mark> так, чтобы он возвращал строку с параметрами для форматирования.</p>
+<p><strong>Должен быть вывод аналогичный следующему:</strong><br />
+<code>31:10:13 15:59:59</code></p>
+
+</div>
