@@ -1,19 +1,20 @@
 package com.javarush.task.task39.task3913;
 
-import com.javarush.task.task39.task3913.query.DateQuery;
-import com.javarush.task.task39.task3913.query.IPQuery;
-import com.javarush.task.task39.task3913.query.UserQuery;
+import com.javarush.task.task39.task3913.query.*;
 
 import java.io.*;
 import java.nio.file.Path;
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
-public class LogParser implements IPQuery, UserQuery, DateQuery
+public class LogParser implements IPQuery, UserQuery, DateQuery, EventQuery, QLQuery
 {
 	private Path logDir;
-
+	
 	public LogParser(Path logDir)
 	{
 		this.logDir = logDir;
@@ -349,5 +350,343 @@ public class LogParser implements IPQuery, UserQuery, DateQuery
 				dates.add(line.getDate());
 
 		return dates.isEmpty() ? null : dates.first();
+	}
+	
+	@Override
+	public int getNumberOfAllEvents(Date after, Date before)
+	{
+		return getAllEvents(after, before).size();
+	}
+	
+	@Override
+	public Set<Event> getAllEvents(Date after, Date before)
+	{
+		Set<Event> events = new HashSet<>();
+		
+		List<LogLine> lines = getLinesInPeriod(after, before);
+		for (LogLine line : lines)
+			events.add(line.getEvent());
+		
+		return events;
+	}
+	
+	@Override
+	public Set<Event> getEventsForIP(String ip, Date after, Date before)
+	{
+		Set<Event> events = new HashSet<>();
+		
+		List<LogLine> lines = getLinesInPeriod(after, before);
+		for (LogLine line : lines)
+			if (line.getIp().equals(ip))
+				events.add(line.getEvent());
+		
+		return events;
+	}
+	
+	@Override
+	public Set<Event> getEventsForUser(String user, Date after, Date before)
+	{
+		Set<Event> events = new HashSet<>();
+		
+		List<LogLine> lines = getLinesInPeriod(after, before);
+		for (LogLine line : lines)
+			if (line.getUser().equals(user))
+				events.add(line.getEvent());
+		
+		return events;
+	}
+	
+	@Override
+	public Set<Event> getFailedEvents(Date after, Date before)
+	{
+		return getEventsByStatus(Status.FAILED, after, before);
+	}
+	
+	@Override
+	public Set<Event> getErrorEvents(Date after, Date before)
+	{
+		return getEventsByStatus(Status.ERROR, after, before);
+	}
+	
+	@Override
+	public int getNumberOfAttemptToSolveTask(int task, Date after, Date before)
+	{
+		return getNumberOfEventsByTask(Event.SOLVE_TASK, task, after, before);
+	}
+	
+	@Override
+	public int getNumberOfSuccessfulAttemptToSolveTask(int task, Date after, Date before)
+	{
+		return getNumberOfEventsByTask(Event.DONE_TASK, task, after, before);
+	}
+	
+	@Override
+	public Map<Integer, Integer> getAllSolvedTasksAndTheirNumber(Date after, Date before)
+	{
+		return getTasksAndTheirNumberByEvent(Event.SOLVE_TASK, after, before);
+	}
+	
+	@Override
+	public Map<Integer, Integer> getAllDoneTasksAndTheirNumber(Date after, Date before)
+	{
+		return getTasksAndTheirNumberByEvent(Event.DONE_TASK, after, before);
+	}
+	
+	private Set<Event> getEventsByStatus(Status status, Date after, Date before)
+	{
+		Set<Event> events = new HashSet<>();
+		
+		List<LogLine> lines = getLinesInPeriod(after, before);
+		for (LogLine line : lines)
+			if (line.getStatus() == status)
+				events.add(line.getEvent());
+		
+		return events;
+	}
+	
+	private int getNumberOfEventsByTask(Event event, int task, Date after, Date before)
+	{
+		int quantity = 0;
+		
+		List<LogLine> lines = getLinesInPeriod(after, before);
+		for (LogLine line : lines)
+			if (line.getEvent() == event && line.getTaskNumber() == task)
+				quantity++;
+		
+		return quantity;
+	}
+	
+	private Map<Integer, Integer> getTasksAndTheirNumberByEvent(Event event, Date after, Date before)
+	{
+		Map<Integer, Integer> events = new HashMap<>();
+		
+		List<LogLine> lines = getLinesInPeriod(after, before);
+		for (LogLine line : lines)
+			if (line.getEvent() == event)
+			{
+				int taskNumber = line.getTaskNumber();
+				
+				if (taskNumber > 0)
+				{
+					int quantity = 1;
+					
+					if (events.containsKey(taskNumber))
+						quantity += events.get(taskNumber);
+					
+					events.put(taskNumber, quantity);
+				}
+			}
+		
+		return events;
+	}
+	
+	@Override
+	public Set<Object> execute(String query)
+	{
+		Set<Object> result = new HashSet<>();
+		
+		if (query != null && !query.isEmpty())
+		{
+			Pattern pattern = Pattern.compile("get (ip|user|date|event|status)" +
+					"( for (ip|user|date|event|status) = \"(.*?)\")?" +
+					"( and date between \"(.*?)\" and \"(.*?)\")?");
+			Matcher matcher = pattern.matcher(query);
+			
+			if (matcher.find())
+			{
+				String field1 = matcher.group(1);
+				String field2 = matcher.group(3);
+				String value1 = matcher.group(4);
+				String strAfter = matcher.group(6);
+				String strBefore = matcher.group(7);
+
+				Date after = null;
+				if (strAfter != null)
+				{
+					try
+					{
+						after = new SimpleDateFormat("dd.MM.yyyy H:mm:ss").parse(strAfter);
+					}
+					catch (ParseException e)
+					{
+						after = null;
+					}
+
+					if (after == null)
+						try
+						{
+							after = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss").parse(strAfter);
+						}
+						catch (ParseException e)
+						{
+							after = null;
+						}
+				}
+
+				Date before = null;
+				if (strBefore != null)
+				{
+					try
+					{
+						before = new SimpleDateFormat("dd.MM.yyyy H:mm:ss").parse(strBefore);
+					}
+					catch (ParseException e)
+					{
+						before = null;
+					}
+
+					if (before == null)
+						try
+						{
+							before = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss").parse(strBefore);
+						}
+						catch (ParseException e)
+						{
+							before = null;
+						}
+				}
+				
+				switch (field1)
+				{
+					case "ip":
+						result.addAll(getAllIPs(field2, value1, after, before));
+						break;
+					case "user":
+						result.addAll(getAllUsers(field2, value1, after, before));
+						break;
+					case "date":
+						result.addAll(getAllDates(field2, value1, after, before));
+						break;
+					case "event":
+						result.addAll(getAllEvents(field2, value1, after, before));
+						break;
+					case "status":
+						result.addAll(getAllStates(field2, value1, after, before));
+						break;
+				}
+			}
+		}
+		
+		return result;
+	}
+	
+	private Set<String> getAllIPs(String field, String value, Date after, Date before)
+	{
+		Set<String> result = new HashSet<>();
+		
+		List<LogLine> lines = getLinesInPeriod(after, before);
+
+		for (LogLine line : lines)
+			try
+			{
+				if (matches(line, field, value))
+					result.add(line.getIp());
+			}
+			catch (ParseException e)
+			{}
+		
+		return result;
+	}
+	
+	private Set<String> getAllUsers(String field, String value, Date after, Date before)
+	{
+		Set<String> result = new HashSet<>();
+		
+		List<LogLine> lines = getLinesInPeriod(after, before);
+		for (LogLine line : lines)
+			try
+			{
+				if (matches(line, field, value))
+					result.add(line.getUser());
+			}
+			catch (ParseException e)
+			{}
+		
+		return result;
+	}
+	
+	private Set<Date> getAllDates(String field, String value, Date after, Date before)
+	{
+		Set<Date> result = new HashSet<>();
+		
+		List<LogLine> lines = getLinesInPeriod(after, before);
+		for (LogLine line : lines)
+			try
+			{
+				if (matches(line, field, value))
+					result.add(line.getDate());
+			}
+			catch (ParseException e)
+			{}
+		
+		return result;
+	}
+	
+	private Set<Event> getAllEvents(String field, String value, Date after, Date before)
+	{
+		Set<Event> result = new HashSet<>();
+		
+		List<LogLine> lines = getLinesInPeriod(after, before);
+		for (LogLine line : lines)
+			try
+			{
+				if (matches(line, field, value))
+					result.add(line.getEvent());
+			}
+			catch (ParseException e)
+			{}
+		
+		return result;
+	}
+	
+	private Set<Status> getAllStates(String field, String value, Date after, Date before)
+	{
+		Set<Status> result = new HashSet<>();
+		
+		List<LogLine> lines = getLinesInPeriod(after, before);
+		for (LogLine line : lines)
+			try
+			{
+				if (matches(line, field, value))
+					result.add(line.getStatus());
+			}
+			catch (ParseException e)
+			{}
+		
+		return result;
+	}
+	
+	private boolean matches(LogLine line, String field, String value) throws ParseException
+	{
+		boolean result = false;
+		
+		if (line != null)
+		{
+			if (field == null)
+				result = true;
+			else if (value != null)
+			{
+				switch (field)
+				{
+					case "ip":
+						result = line.getIp().equals(value);
+						break;
+					case "user":
+						result = line.getUser().equals(value);
+						break;
+					case "date":
+						result = line.getDate().equals(new SimpleDateFormat("dd.MM.yyyy HH:mm:ss").parse(value));
+						break;
+					case "event":
+						result = line.getEvent() == Event.valueOf(value);
+						break;
+					case "status":
+						result = line.getStatus() == Status.valueOf(value);
+						break;
+				}
+			}
+		}
+		
+		return result;
 	}
 }
