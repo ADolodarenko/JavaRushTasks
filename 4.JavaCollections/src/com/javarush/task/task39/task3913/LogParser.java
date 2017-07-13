@@ -101,6 +101,30 @@ public class LogParser implements IPQuery, UserQuery, DateQuery, EventQuery, QLQ
 		return lines;
 	}
 
+	private List<LogLine> getLinesInPeriodExclusive(Date after, Date before)
+	{
+		List<LogLine> lines = getAllLines();
+
+		if (lines.size() > 0)
+		{
+			Iterator<LogLine> iterator = lines.iterator();
+
+			while (iterator.hasNext())
+			{
+				LogLine line = iterator.next();
+
+				Date date = line.getDate();
+
+				if (after != null && (date.before(after) || date.equals(after)))
+					iterator.remove();
+				else if (before != null && (date.after(before) || date.equals(before)))
+					iterator.remove();
+			}
+		}
+
+		return lines;
+	}
+
 	private List<LogLine> getAllLines()
 	{
 		List<LogLine> lines = new ArrayList<>();
@@ -574,7 +598,7 @@ public class LogParser implements IPQuery, UserQuery, DateQuery, EventQuery, QLQ
 	{
 		Set<String> result = new HashSet<>();
 		
-		List<LogLine> lines = getLinesInPeriod(after, before);
+		List<LogLine> lines = getLinesInPeriodExclusive(after, before);
 
 		for (LogLine line : lines)
 			try
@@ -609,7 +633,7 @@ public class LogParser implements IPQuery, UserQuery, DateQuery, EventQuery, QLQ
 	{
 		Set<Date> result = new HashSet<>();
 		
-		List<LogLine> lines = getLinesInPeriod(after, before);
+		List<LogLine> lines = getLinesInPeriodExclusive(after, before);
 		for (LogLine line : lines)
 			try
 			{
