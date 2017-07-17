@@ -1,7 +1,6 @@
 package com.javarush.task.task28.task2810.model;
 
 import com.javarush.task.task28.task2810.vo.Vacancy;
-import org.jsoup.Connection;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -21,25 +20,65 @@ public class HHStrategy implements Strategy
 	@Override
 	public List<Vacancy> getVacancies(String searchString)
 	{
+		String vacancyQuery = "[data-qa='vacancy-serp__vacancy']";
+		String titleQuery = "[data-qa='vacancy-serp__vacancy-title']";
+		String compensationQuery = "[data-qa='vacancy-serp__vacancy-compensation']";
+		String addressQuery = "[data-qa='vacancy-serp__vacancy-address']";
+		String employerQuery = "[data-qa='vacancy-serp__vacancy-employer']";
+
+		List<Vacancy> list = new ArrayList<>();
+
+		int i = 0;
+
 		try
 		{
-			Document document = getDocument(searchString, 0);
+			while (true)
+			{
+				Document document = getDocument(searchString, i);
+				Elements vacanciesElements = document.select(vacancyQuery);
 
-			Elements elements = document.select("vacancy-serp__vacancy");
-			if (elements != null && elements.size() > 0)
-				for (Element element : elements)
+				if (!vacanciesElements.isEmpty())
 				{
+					for (Element element: vacanciesElements)
+					{
+						Vacancy vacancy = new Vacancy();
 
+						vacancy.setTitle(element.select(titleQuery).text());
+						vacancy.setCity(element.select(addressQuery).text());
+						vacancy.setCompanyName(element.select(employerQuery).text());
+						vacancy.setUrl(element.select(titleQuery).attr("href"));
+						vacancy.setSiteName("https://hh.ua");
+						if (!element.select(compensationQuery).isEmpty())
+							vacancy.setSalary(element.select(compensationQuery).text());
+						else
+							vacancy.setSalary("");
+
+						list.add(vacancy);
+					}
 				}
-		}
-		catch (IOException e)
-		{}
+				else
+					break;
 
-		return new ArrayList<>();
+				i++;
+			}
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+		}
+
+		return list;
 	}
 
 	protected Document getDocument(String searchString, int page) throws IOException
 	{
-		return Jsoup.connect("http://javarush.ru/testdata/big28data.html").userAgent("Mozilla/5.0").referrer("no-referrer-when-downgrade").get();
+		String url = String.format(URL_FORMAT, searchString, page);
+
+		Document document = Jsoup.connect(url)
+				.userAgent("Mozilla")
+				.referrer("https://hh.ua")
+				.get();
+
+		return document;
 	}
 }

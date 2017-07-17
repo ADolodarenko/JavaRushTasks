@@ -1,5 +1,6 @@
 package com.javarush.task.task28.task2810;
 
+import com.javarush.task.task28.task2810.model.Model;
 import com.javarush.task.task28.task2810.model.Provider;
 import com.javarush.task.task28.task2810.vo.Vacancy;
 
@@ -12,30 +13,18 @@ import java.util.List;
  */
 public class Controller
 {
-	private Provider[] providers;
+	private Model model;
 
-	public Controller(Provider... providers)
+	public Controller(Model model)
 	{
-		if (providers == null || providers.length < 1)
+		if (model == null)
 			throw new IllegalArgumentException();
 
-		this.providers = providers;
+		this.model = model;
 	}
 
-	@Override
-	public String toString()
+	public void onCitySelect(String cityName)
 	{
-		return "Controller{" +
-				"providers=" + Arrays.toString(providers) +
-				'}';
-	}
-
-	public void scan()
-	{
-		List<Vacancy> allVacancies = new ArrayList<>();
-		for (Provider provider : providers)
-			allVacancies.addAll(provider.getJavaVacancies(null));
-
-		System.out.println(allVacancies.size());
+		model.selectCity(cityName);
 	}
 }
