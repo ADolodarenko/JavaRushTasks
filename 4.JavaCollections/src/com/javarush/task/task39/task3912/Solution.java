@@ -7,8 +7,8 @@ package com.javarush.task.task39.task3912;
 public class Solution {
     public static void main(String[] args)
 	{
-
-    }
+		System.out.println(maxSquare(new int[][]{{1,1}, {1,1}}));
+	}
 
     public static int maxSquare(int[][] matrix)
 	{
