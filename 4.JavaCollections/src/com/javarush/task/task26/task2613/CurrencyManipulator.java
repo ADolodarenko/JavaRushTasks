@@ -82,7 +82,7 @@ public class CurrencyManipulator
 			}
 		}
 
-		if (!amounts.isEmpty())
+		if (expectedAmount == 0 && !amounts.isEmpty())
 		{
 			for (Map.Entry<Integer, Integer> entry : amounts.entrySet())
 			{

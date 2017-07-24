@@ -5,10 +5,13 @@ import com.javarush.task.task26.task2613.exception.InterruptOperationException;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.Locale;
+import java.util.ResourceBundle;
 
 public class ConsoleHelper
 {
 	private static BufferedReader bis = new BufferedReader(new InputStreamReader(System.in));
+	private static ResourceBundle res = ResourceBundle.getBundle(CashMachine.RESOURCE_PATH.concat("common"), Locale.ENGLISH);
 
 	public static void writeMessage(String message)
 	{
@@ -36,13 +39,13 @@ public class ConsoleHelper
 	{
 		while (true)
 		{
-			writeMessage("Enter a currency code:");
+			writeMessage(res.getString("choose.currency.code"));
 			String code = readString();
 
 			if (code != null && code.length() == 3)
 				return code.toUpperCase();
 			else
-				writeMessage("Your code isn't correct.");
+				writeMessage(res.getString("invalid.data"));
 		}
 	}
 
@@ -50,7 +53,7 @@ public class ConsoleHelper
 	{
 		String[] digits;
 
-		String message = String.format("Enter the denomination and quantity for %s", currencyCode);
+		String message = String.format(res.getString("choose.denomination.and.count.format"), currencyCode);
 		while (true)
 		{
 			writeMessage(message);
@@ -73,7 +76,7 @@ public class ConsoleHelper
 			if (isCorrect)
 				break;
 			else
-				writeMessage("Your values aren't correct.");
+				writeMessage(res.getString("invalid.data"));
 		}
 
 		return digits;
@@ -81,11 +84,9 @@ public class ConsoleHelper
 
 	public static Operation askOperation() throws InterruptOperationException
 	{
-		String message = "Enter an operation number:";
-
 		while (true)
 		{
-			writeMessage(message);
+			writeMessage(res.getString("choose.operation"));
 			int number = 0;
 			try
 			{
@@ -100,8 +101,13 @@ public class ConsoleHelper
 			}
 			catch (IllegalArgumentException e)
 			{
-				writeMessage("Your operation number is wrong.");
+				writeMessage(res.getString("invalid.data"));
 			}
 		}
+	}
+
+	public static void printExitMessage()
+	{
+		writeMessage(res.getString("the.end"));
 	}
 }

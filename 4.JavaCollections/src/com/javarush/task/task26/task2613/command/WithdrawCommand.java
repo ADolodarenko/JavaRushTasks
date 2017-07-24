@@ -1,26 +1,30 @@
 package com.javarush.task.task26.task2613.command;
 
+import com.javarush.task.task26.task2613.CashMachine;
 import com.javarush.task.task26.task2613.ConsoleHelper;
 import com.javarush.task.task26.task2613.CurrencyManipulator;
 import com.javarush.task.task26.task2613.CurrencyManipulatorFactory;
 import com.javarush.task.task26.task2613.exception.InterruptOperationException;
 import com.javarush.task.task26.task2613.exception.NotEnoughMoneyException;
 
-import java.util.Comparator;
-import java.util.Map;
-import java.util.TreeMap;
+import java.util.*;
 
 class WithdrawCommand implements Command
 {
+	private ResourceBundle res = ResourceBundle.getBundle(CashMachine.RESOURCE_PATH.concat("withdraw"), Locale.ENGLISH);
+
 	@Override
 	public void execute() throws InterruptOperationException
 	{
+		ConsoleHelper.writeMessage(res.getString("before"));
+
 		String currencyCode = ConsoleHelper.askCurrencyCode();
 		CurrencyManipulator manipulator = CurrencyManipulatorFactory.getManipulatorByCurrencyCode(currencyCode);
 
 		while (true)
 		{
-			ConsoleHelper.writeMessage("Enter the sum:");
+			ConsoleHelper.writeMessage(res.getString("specify.amount"));
+
 			boolean isCorrect = false;
 			int sum = 0;
 			try
@@ -35,13 +39,17 @@ class WithdrawCommand implements Command
 
 			if (!isCorrect)
 			{
-				ConsoleHelper.writeMessage("Your sum isn't correct.");
+				ConsoleHelper.writeMessage(res.getString("specify.not.empty.amount"));
 
 				continue;
 			}
 
 			if (!manipulator.isAmountAvailable(sum))
+			{
+				ConsoleHelper.writeMessage(res.getString("not.enough.money"));
+
 				continue;
+			}
 
 			try
 			{
@@ -60,13 +68,13 @@ class WithdrawCommand implements Command
 				for (Map.Entry<Integer, Integer> entry : sortedDenominations.entrySet())
 					ConsoleHelper.writeMessage("\t" + entry.getKey() + " - " + entry.getValue());
 
-				ConsoleHelper.writeMessage("Transaction succeeded.");
+				ConsoleHelper.writeMessage(String.format(res.getString("success.format"), sum, currencyCode));
 
 				break;
 			}
 			catch (NotEnoughMoneyException e)
 			{
-				ConsoleHelper.writeMessage("There aren't enough denominations.");
+				ConsoleHelper.writeMessage(res.getString("exact.amount.not.available"));
 			}
 		}
 
