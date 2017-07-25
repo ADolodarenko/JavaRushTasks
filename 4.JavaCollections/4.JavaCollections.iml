@@ -18,5 +18,6 @@
     <orderEntry type="library" name="org.powermock:powermock-core:1.7.0" level="application" />
     <orderEntry type="library" name="org.slf4j:slf4j-log4j12:1.7.2" level="application" />
     <orderEntry type="library" name="org.apache.httpcomponents:httpclient:4.3-beta1" level="application" />
+    <orderEntry type="library" name="mail" level="application" />
   </component>
 </module>
