@@ -2,6 +2,7 @@ package com.javarush.task.task34.task3410.view;
 
 import com.javarush.task.task34.task3410.controller.Controller;
 import com.javarush.task.task34.task3410.controller.EventListener;
+import com.javarush.task.task34.task3410.model.GameObjects;
 
 import javax.swing.*;
 
@@ -29,4 +30,25 @@ public class View extends JFrame {
         setTitle("Сокобан");
         setVisible(true);
     }
+
+    public void update()
+	{
+		if (field != null)
+			field.repaint();
+	}
+
+	public GameObjects getGameObjects()
+	{
+		return controller.getGameObjects();
+	}
+
+	public void completed(int level)
+	{
+		update();
+
+		JOptionPane.showMessageDialog(this, String.format("You've completed level %d", level),
+				"Congratulations!", JOptionPane.INFORMATION_MESSAGE);
+
+		controller.startNextLevel();
+	}
 }

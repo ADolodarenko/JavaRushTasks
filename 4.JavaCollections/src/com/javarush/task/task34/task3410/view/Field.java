@@ -1,13 +1,12 @@
 package com.javarush.task.task34.task3410.view;
 
 import com.javarush.task.task34.task3410.controller.EventListener;
-import com.javarush.task.task34.task3410.model.Home;
-import com.javarush.task.task34.task3410.model.Player;
-import com.javarush.task.task34.task3410.model.Box;
-import com.javarush.task.task34.task3410.model.Wall;
+import com.javarush.task.task34.task3410.model.*;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 public class Field extends JPanel
 {
@@ -18,6 +17,11 @@ public class Field extends JPanel
 	public Field(View view)
 	{
 		this.view = view;
+
+		KeyHandler handler = new KeyHandler();
+		addKeyListener(handler);
+
+		setFocusable(true);
 	}
 
 	public void setEventListener(EventListener eventListener)
@@ -27,16 +31,36 @@ public class Field extends JPanel
 
 	public void paint(Graphics g)
 	{
-		Player player = new Player(100, 100);
-		player.draw(g);
+		g.setColor(Color.BLACK);
+		g.fillRect(0, 0, getWidth(), getHeight());
 
-		Box box = new Box(130, 130);
-		box.draw(g);
+		GameObjects objects = view.getGameObjects();
+		for (GameObject object : objects.getAll())
+			object.draw(g);
+	}
 
-		Home home = new Home(140, 140);
-		home.draw(g);
-
-		Wall wall = new Wall(60, 60);
-		wall.draw(g);
+	public class KeyHandler extends KeyAdapter
+	{
+		@Override
+		public void keyPressed(KeyEvent e)
+		{
+			switch (e.getKeyCode())
+			{
+				case KeyEvent.VK_LEFT:
+					eventListener.move(Direction.LEFT);
+					break;
+				case KeyEvent.VK_UP:
+					eventListener.move(Direction.UP);
+					break;
+				case KeyEvent.VK_RIGHT:
+					eventListener.move(Direction.RIGHT);
+					break;
+				case KeyEvent.VK_DOWN:
+					eventListener.move(Direction.DOWN);
+					break;
+				case KeyEvent.VK_R:
+					eventListener.restart();
+			}
+		}
 	}
 }
