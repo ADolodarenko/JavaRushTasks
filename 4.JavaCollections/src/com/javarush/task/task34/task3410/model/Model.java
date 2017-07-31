@@ -11,7 +11,7 @@ public class Model
 	private EventListener eventListener;
 	private GameObjects gameObjects;
 	private int currentLevel = 1;
-	private LevelLoader levelLoader = new LevelLoader(Paths.get(Paths.get(this.getClass().getResource("").getPath()).getParent().toString() + "/res/levels.txt"));
+	private LevelLoader levelLoader = new LevelLoader(Paths.get("D:/Work/Projects/Java/Learning/JavaRushTasks/out/production/4.JavaCollections/com/javarush/task/task34/task3410/res/levels.txt"));
 
 	public void setEventListener(EventListener eventListener)
 	{
@@ -82,42 +82,42 @@ public class Model
 	public boolean checkBoxCollisionAndMoveIfAvaliable(Direction direction)
 	{
 		Player player = gameObjects.getPlayer();
-		GameObject stoped = null;
-		for (GameObject gameObject : gameObjects.getAll()) {
-			if (!(gameObject instanceof Player) && !(gameObject instanceof Home) && player.isCollision(gameObject, direction)) {
-				stoped = gameObject;
-			}
-		}
+		GameObject nextObject = null;
 
-		if ((stoped == null)) {
+		for (GameObject gameObject : gameObjects.getAll())
+			if (!(gameObject instanceof Player) && !(gameObject instanceof Home) && player.isCollision(gameObject, direction))
+				nextObject = gameObject;
+
+		if ((nextObject == null))
 			return false;
-		}
 
-		if (stoped instanceof Box) {
-			Box stopedBox = (Box) stoped;
-			if (checkWallCollision(stopedBox, direction)) {
+		if (nextObject instanceof Box)
+		{
+			Box nextBox = (Box) nextObject;
+
+			if (checkWallCollision(nextBox, direction))
 				return true;
-			}
-			for (Box box : gameObjects.getBoxes()) {
-				if (stopedBox.isCollision(box, direction)) {
-					return true;
-				}
-			}
 
-			switch (direction) {
+			for (Box box : gameObjects.getBoxes())
+				if (nextBox.isCollision(box, direction))
+					return true;
+
+			switch (direction)
+			{
 				case LEFT:
-					stopedBox.move(-FIELD_CELL_SIZE, 0);
+					nextBox.move(-FIELD_CELL_SIZE, 0);
 					break;
 				case RIGHT:
-					stopedBox.move(FIELD_CELL_SIZE, 0);
+					nextBox.move(FIELD_CELL_SIZE, 0);
 					break;
 				case UP:
-					stopedBox.move(0, -FIELD_CELL_SIZE);
+					nextBox.move(0, -FIELD_CELL_SIZE);
 					break;
 				case DOWN:
-					stopedBox.move(0, FIELD_CELL_SIZE);
+					nextBox.move(0, FIELD_CELL_SIZE);
 			}
 		}
+
 		return false;
 	}
 
